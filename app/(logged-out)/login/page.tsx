@@ -1,13 +1,15 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { PersonStandingIcon } from "lucide-react";
 import Link from "next/link";
 
 export default function LoginPage() {
     return (
         // <div> Login </div>
         <>
-            <Card>
+            <PersonStandingIcon size={50} />
+            <Card className="w-full max-w-sm">
                 <CardHeader>
                     <CardTitle> Login </CardTitle>
                     <CardDescription>
@@ -17,7 +19,7 @@ export default function LoginPage() {
                 <CardContent>
                     login form
                 </CardContent>
-                <CardFooter>
+                <CardFooter className="justify-between">
                     <small> Don't have an account? </small>
                     <Button asChild variant="outline" size={"sm"} >
                         <Link href="/sign-up" >Sign Up</Link>
