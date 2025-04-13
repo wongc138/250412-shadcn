@@ -14,7 +14,7 @@ export default function Page() {
         </Button>
         <span> or </span>
         <Button asChild variant="outline">
-          <Link href="/login"> Sign Up </Link>
+          <Link href="/sign-up"> Sign Up </Link>
         </Button>
       </div>
     </>
