@@ -1,11 +1,14 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectTrigger, SelectValue, SelectItem } from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PersonStandingIcon } from "lucide-react";
+import { format } from "date-fns";
+import { CalendarIcon, PersonStandingIcon } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -15,6 +18,12 @@ const fornSchema = z.object({
   accountType: z.enum(["personal", "company"]),
   companyName: z.string().optional(),
   numberOfEmployees: z.coerce.number().optional(),
+  dob: z.date().refine((date) => {
+    const today = new Date();
+    const eighteenYearsAgo = new Date(
+      today.getFullYear() - 18, today.getMonth(), today.getDate());
+    return date <= eighteenYearsAgo;
+  }, "You must be at least 18 years old"),
   // password: z.string(),
 }).superRefine((data, ctx) => {
   if (data.accountType === "company" && !data.companyName) {
@@ -42,6 +51,8 @@ export default function SignupPage() {
 
   const accountType = form.watch("accountType");
 
+  const dobFromDate = new Date();
+  dobFromDate.setFullYear(dobFromDate.getFullYear() - 120);
 
   return (
     // <div> Login </div>
@@ -136,6 +147,59 @@ export default function SignupPage() {
 
                 </>
               }
+
+              <FormField
+                control={form.control}
+                name="dob"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col pt-2">
+                    <FormLabel>Date Of Birth </FormLabel>
+                    <FormControl>
+
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant="outline"
+                              className="normal-case flex justify-between pr-1">
+                              {!!field.value ? format(field.value, "do MMMM, yyyy") : <span>Pick a date</span>}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                            {/* https://date-fns.org/docs/format */}
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            defaultMonth={field.value}
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            fixedWeeks
+                            weekStartsOn={1}
+                            fromDate={dobFromDate}
+                            toDate={new Date()}
+                            captionLayout="dropdown-buttons"
+
+                            // disable weekends Sat and Sun
+                            // disabled={(date) => {
+                            //   return date.getDay() === 0 || date.getDay() === 6;
+                            // }}
+
+                            // disabled={(date) =>
+                            //   date > new Date() || date < new Date("1900-01-01")
+                            // }
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+
+
+
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
               <Button type="submit"> Sign Up </Button>
             </form>
