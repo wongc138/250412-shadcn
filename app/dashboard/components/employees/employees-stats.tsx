@@ -18,7 +18,7 @@ export default function EmployeesStats() {
       <div className="grid lg:grid-cols-3 gap-4">
         {/* Card 1 */}
         <Card>
-          <CardHeader className="pb-1">
+          <CardHeader className="pb-2">
             <CardTitle className="text-base">Total employees</CardTitle>
           </CardHeader>
           <CardContent className="flex justify-between items-center">
@@ -37,12 +37,14 @@ export default function EmployeesStats() {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-base">Employees present (%)</CardTitle>
+          </CardHeader>
+          <CardContent className="flex gap-2 items-center">
             <div className="flex gap-2">
               {employeesPresentPercentage > 75 ? <UserCheck2Icon /> : <UserRoundXIcon />}
               {/* <UserCheck2 /> */}
               <div className="text-5xl font-bold">{employeesPresent}</div>
             </div>
-          </CardHeader>
+          </CardContent>
           <CardFooter>
             {employeesPresentPercentage > 75 ?
               <span className="text-xs text-green-300 flex gap-1 items-center">
