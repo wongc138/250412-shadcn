@@ -9,6 +9,7 @@ import tf from "@/public/images/6.3 tf.jpg";
 import rl from "@/public/images/6.2 rl.jpg";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import TeamDistributionChart from "./team-distribution-chart";
+import SupportTicketsResolved from "./support-tickets-resolved";
 
 const teamLeaders = [
 	{
@@ -113,7 +114,7 @@ export default function TeamStats() {
 							<PieChartIcon />
 						</CardTitle>
 					</CardHeader>
-					<CardContent >
+					<CardContent className="pb=0">
 						<TeamDistributionChart />
 					</CardContent>
 
@@ -128,7 +129,7 @@ export default function TeamStats() {
 					</CardTitle>
 				</CardHeader>
 				<CardContent className="pl-0">
-					line graph
+					<SupportTicketsResolved />
 				</CardContent>
 			</ Card >
 		</>
